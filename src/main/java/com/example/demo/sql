@@ -1,0 +1,43 @@
+CREATE TABLE db.accounts (
+	user_id serial PRIMARY KEY,
+	username VARCHAR ( 50 ) UNIQUE NOT NULL,
+	password VARCHAR ( 50 ) NOT NULL,
+	email VARCHAR ( 255 ) UNIQUE NOT NULL,
+	created_on TIMESTAMP NOT NULL,
+        last_login TIMESTAMP
+);
+
+
+create or replace function getAccountById(p_id int4, p_uname varchar)
+returns table(t_account int4, t_username varchar, t_password varchar, t_email varchar)
+language plpgsql
+as $function$
+begin
+	return query (
+			select
+			user_id as t_account,
+			username as t_username,
+			password as t_password,
+			email as t_email
+			from db.accounts
+			where
+			user_id  = p_id
+			and
+			username  = p_uname
+		);
+end;
+$function$;
+
+
+INSERT INTO db.accounts
+(user_id, username, "password", email, created_on, last_login, roles)
+VALUES(1, 'nguyenthai', '123', 'nguyenthai@gmail.com', '2023-05-12 09:44:38.621', '2023-05-12 09:44:38.621', '{"roleCode": 1, "roleName": "Admin"}'::jsonb);
+INSERT INTO db.accounts
+(user_id, username, "password", email, created_on, last_login, roles)
+VALUES(3, 'nguyenthai1', '123456', 'nguyenthai1@gmail.com', '2023-05-12 09:44:38.621', '2023-05-12 09:44:38.621', '{"roleCode": 1, "roleName": "Admin"}'::jsonb);
+INSERT INTO db.accounts
+(user_id, username, "password", email, created_on, last_login, roles)
+VALUES(2, 'nguyenthai2', '123456', 'nguyenthai2@gmail.com', '2023-05-12 09:44:38.621', '2023-05-12 09:44:38.621', '{"roleCode": 1, "roleName": "Admin"}'::jsonb);
+INSERT INTO db.accounts
+(user_id, username, "password", email, created_on, last_login, roles)
+VALUES(4, 'nguyenthai3', '123456', 'nguyenthai3@gmail.com', '2023-05-12 09:44:38.621', '2023-05-12 09:44:38.621', '{"roleCode": 1, "roleName": "Admin"}'::jsonb);
