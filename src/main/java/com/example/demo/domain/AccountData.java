@@ -7,40 +7,41 @@ import java.io.Serializable;
 public class AccountData implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private int account;
+    @TypeJson(typeClass = Role.class)
+    private Role roles;
+    private int userId;
     private String username;
     private String password;
     private String email;
 
-    @TypeJson(typeClass = Role.class)
-    private Role role;
+    @TypeJson(typeClass = ShortInfo.class)
+    private ShortInfo shortInfo;
 
     public AccountData() {
     }
 
-    public AccountData(int account, String username, String password, String email, Role role) {
-        this.account = account;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.role = role;
+    public ShortInfo getShortInfo() {
+        return shortInfo;
     }
 
-    public Role getRole() {
-        return role;
+    public void setShortInfo(ShortInfo shortInfo) {
+        this.shortInfo = shortInfo;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public Role getRoles() {
+        return roles;
     }
 
-    public int getAccount() {
-        return account;
+    public void setRoles(Role roles) {
+        this.roles = roles;
     }
 
-    public void setAccount(int account) {
-        this.account = account;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {

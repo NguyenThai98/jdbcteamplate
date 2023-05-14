@@ -27,7 +27,7 @@ public class AccountCtl {
 
     @GetMapping("/getInfo")
     public ResponseData<AccountData> getAccount(@RequestParam int id,
-                                             @RequestParam String username) throws InstantiationException, IllegalAccessException, InvocationTargetException {
+                                             @RequestParam String username) {
         AccountData accounts = accountService.getAccount(id, username);
         return ResponseData.getSuccessData(accounts);
     }

@@ -11,7 +11,7 @@ import java.util.List;
  * Date: 5/12/2023<br/>
  * Time: 9:42 AM<br/>
  */
-public abstract class AbstractDao {
+public abstract class AbstractJdbcTemplateDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -29,10 +29,11 @@ public abstract class AbstractDao {
         }
     }
 
-    public <T> List<T> getMulData(String sql, RowMapper<T> rowMapper) {
+    public <T> List<T> getMulData(String sql, RowMapper<T> rowMapper, Object ...params) {
         return jdbcTemplate.query(
                 sql,
-                rowMapper
+                rowMapper,
+                params
         );
     }
 }

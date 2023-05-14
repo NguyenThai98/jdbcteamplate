@@ -21,11 +21,22 @@ public class AccountService {
     @Autowired
     private AccountReposytory accountReposytory;
 
-    public AccountData getAccount(int id, String username) throws IllegalAccessException, InstantiationException, InvocationTargetException {
+    public AccountData getAccount(int id, String username)  {
 
-        Object [] objects = new Object[]{id,username};
+        Object [] objects = new Object[]{id};
 
-        String sql = "select * from db.getAccountById(?,?)";
+        //String sql = "select * from db.getAccountById(?)";
+        //String sql = "select * from getAccountById(?)";
+        String sql = "select\n" +
+                "user_id ,\n" +
+                "username ,\n" +
+                "password,\n" +
+                "email, \n" +
+                "roles, \n" +
+                "short_info \n" +
+                "from batch.accounts\n" +
+                "where\n" +
+                "user_id  = ?";
         return accountReposytory.getData(
                 sql,
                 new DynamicTypeMapper<>(AccountData.class),
@@ -34,7 +45,8 @@ public class AccountService {
     }
 
     public List<Accounts> getListAccount(){
-        String sql = "select * from db.accounts";
+        //String sql = "select * from db.accounts";
+        String sql = "select * from accounts";
         return  accountReposytory.getMulData(
                 sql,
                 new AccountMapper()

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
  * Time: 9:46 AM<br/>
  */
 @Repository
-public class AccountReposytory extends AbstractJdbcTemplateDao {
+public class VideoGameReposytory extends AbstractJdbcTemplateDao {
 }
