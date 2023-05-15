@@ -69,18 +69,20 @@ public class DynamicTypeMapper<T> implements RowMapper<T> {
                     Annotation typeJson = field.getAnnotation(TypeJson.class);
 
                     if(typeJson != null){
-                        // get type json
-                        TypeJson typeDtoMapper = (TypeJson) typeJson;
                         // get data json
                         String dto = rs.getString(i);
                         // mapper json to object
                         if(dto != null){
-                            Object dataJson = getGson().fromJson(dto,  typeDtoMapper.typeClass());
+                            Object dataJson = getGson().fromJson(dto,  field.getType());
                             field.set(data,dataJson);
                         }
                     }else{
-                        // mapper data to field
-                        field.set(data, rs.getObject(metadata.getColumnName(i)));
+                        // mapper data type to field
+                        if(field.getClass().isEnum()){
+                            field.set(data, Enum.valueOf((Class<Enum>) field.getType(), (String) rs.getObject(metadata.getColumnName(i))));
+                        }else{
+                            field.set(data, rs.getObject(metadata.getColumnName(i)));
+                        }
                     }
                 }catch (IllegalAccessException e){
 
@@ -107,4 +109,5 @@ public class DynamicTypeMapper<T> implements RowMapper<T> {
                 }
         );
     }
+
 }
