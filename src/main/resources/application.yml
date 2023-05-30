@@ -1,0 +1,15 @@
+logging:
+  level:
+    org.springframework.jdbc.core: TRACE
+spring:
+  datasource:
+    username: postgres
+    url: jdbc:postgresql://localhost:2345/postgres
+    password: nguyenthai98
+  output:
+    ansi:
+      enabled: ALWAYS
+server:
+  compression:
+    enabled: 'true'
+    mime-types: '*/*'
