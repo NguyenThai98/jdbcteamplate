@@ -2,13 +2,11 @@ package com.example.demo.service;
 
 import com.example.demo.domain.AccountData;
 import com.example.demo.domain.Accounts;
-import com.example.demo.mapper.AccountMapper;
 import com.example.demo.mapper.DynamicTypeMapper;
 import com.example.demo.reposytory.AccountReposytory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -34,7 +32,7 @@ public class AccountService {
                 "email, \n" +
                 "roles, \n" +
                 "short_info \n" +
-                "from batch.accounts\n" +
+                "from db.accounts\n" +
                 "where\n" +
                 "user_id  = ?";
         return accountReposytory.getData(
@@ -45,11 +43,12 @@ public class AccountService {
     }
 
     public List<Accounts> getListAccount(){
-        //String sql = "select * from db.accounts";
-        String sql = "select * from accounts";
-        return  accountReposytory.getMulData(
+        String sql = "select * from db.accounts";
+        //String sql = "select * from accounts";
+        List<Accounts>  datas = accountReposytory.getMulData(
                 sql,
-                new AccountMapper()
+                new DynamicTypeMapper<>(Accounts.class)
         );
+        return  datas;
     }
 }

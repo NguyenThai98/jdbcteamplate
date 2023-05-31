@@ -12,7 +12,7 @@ public class VideoSaleGame {
     private BigDecimal jpSales;
     private String name;
     private String platform;
-    @TypeJson(typeClass = ShortInfo.class)
+    @TypeJson
     private ShortInfo shortInfo;
     private BigDecimal year;
     private String genre;

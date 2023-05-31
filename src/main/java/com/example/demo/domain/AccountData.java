@@ -3,18 +3,19 @@ package com.example.demo.domain;
 import com.example.demo.anotation.TypeJson;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class AccountData implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @TypeJson(typeClass = Role.class)
-    private Role roles;
+    @TypeJson
+    private List<Role> roles;
     private int userId;
     private String username;
     private String password;
     private String email;
 
-    @TypeJson(typeClass = ShortInfo.class)
+    @TypeJson
     private ShortInfo shortInfo;
 
     public AccountData() {
@@ -28,11 +29,11 @@ public class AccountData implements Serializable {
         this.shortInfo = shortInfo;
     }
 
-    public Role getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Role roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 

@@ -1,6 +1,8 @@
 package com.example.demo.mapper;
 
 import com.example.demo.anotation.TypeJson;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.springframework.jdbc.core.RowMapper;
 import java.lang.annotation.Annotation;
@@ -31,17 +33,17 @@ public class DynamicTypeMapper<T> implements RowMapper<T> {
 
     public DynamicTypeMapper(Class<T> aClazz) {
         this.type = aClazz ;
-        try {
-            data = aClazz.getConstructor().newInstance();
 
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     public T mapRow(ResultSet rs, int rowNum) throws SQLException {
+        try {
+            data = type.getConstructor().newInstance();
 
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
         ResultSetMetaData metadata = rs.getMetaData();
         // count column
         int columnCount = metadata.getColumnCount();
@@ -73,7 +75,13 @@ public class DynamicTypeMapper<T> implements RowMapper<T> {
                         String dto = rs.getString(i);
                         // mapper json to object
                         if(dto != null){
-                            Object dataJson = getGson().fromJson(dto,  field.getType());
+                            ObjectMapper mapper = new ObjectMapper();
+                            Object dataJson = null;
+                            try {
+                                dataJson = mapper.readValue (dto,  field.getType());
+                            } catch (JsonProcessingException e) {
+                                e.printStackTrace();
+                            }
                             field.set(data,dataJson);
                         }
                     }else{
